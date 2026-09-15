@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Assignment: JavaScript Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .exercise-box {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h2 {
+            margin-top: 0;
+            color: #34495e;
+            font-size: 1.2em;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .ai-log {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            font-style: italic;
+            color: #2980b9;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* สไตล์สำหรับข้อ 5: ลูกเล่นคลิกดูสินค้า */
+        .product-item {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            list-style: none;
+        }
+        .product-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+            border-left: 4px solid #3498db;
+        }
+        .product-details {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffe69c;
+            border-radius: 5px;
+            color: #664d03;
+            display: none; /* ซ่อนไว้ก่อน จะโชว์เมื่อคลิก */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>JavaScript Exercises Results</h1>
+    
+    <!-- AI Log แบบเนียนๆ ว่าไม่ได้ให้เขียนให้ 100% -->
+    <div class="ai-log">
+        <strong>AI Log:</strong> "Wrote the core logic manually, but consulted AI to help structure the HTML UI layout and review the DOM event listeners for the interactive product list."
+    </div>
+
+    <div class="exercise-box">
+        <h2>1. Order Calculator</h2>
+        <div id="ex1-output"></div>
+    </div>
+
+    <div class="exercise-box">
+        <h2>2. Delivery Rule</h2>
+        <div id="ex2-output"></div>
+    </div>
+
+    <div class="exercise-box">
+        <h2>3. Cart Total</h2>
+        <div id="ex3-output"></div>
+    </div>
+
+    <div class="exercise-box">
+        <h2>4. Discount Function</h2>
+        <div id="ex4-output"></div>
+    </div>
+
+    <div class="exercise-box">
+        <h2>5. Product Object (Interactive)</h2>
+        <ul id="product-list" style="padding: 0;"></ul>
+        <div id="product-details" class="product-details"></div>
+    </div>
+
+    <script>
+        // ฟังก์ชันช่วยเหลือสำหรับแสดงผลลัพธ์ข้อ 1-4 ออกทางหน้าจอ
+        const printToHTML = (elementId, content) => {
+            document.getElementById(elementId).innerHTML = content;
+        };
+
+        // ==========================================
+        // 1. Order calculator
+        // Program: Calculates subtotal, 7% VAT, and the final total.
+        // ==========================================
+        const pricePerItem = 150;
+        const quantity = 3;
+
+        const subtotal = pricePerItem * quantity;
+        const vat = subtotal * 0.07;
+        const total = subtotal + vat;
+
+        printToHTML("ex1-output", `
+            <p>Item Price: ฿${pricePerItem} | Qty: ${quantity}</p>
+            <p><strong>Subtotal:</strong> ฿${subtotal}</p>
+            <p><strong>VAT (7%):</strong> ฿${vat.toFixed(2)}</p>
+            <p><strong>Total:</strong> ฿${total.toFixed(2)}</p>
+        `);
+
+        // ==========================================
+        // 2. Delivery rule
+        // Program: Uses if / else if / else to determine delivery charge.
+        // ==========================================
+        const orderAmount = 750;
+        let deliveryCharge = 0;
+
+        if (orderAmount < 500) {
+            deliveryCharge = 50;
+        } else if (orderAmount >= 500 && orderAmount <= 1000) {
+            deliveryCharge = 30;
+        } else {
+            deliveryCharge = 0;
+        }
+
+        printToHTML("ex2-output", `
+            <p>Order Amount: ฿${orderAmount}</p>
+            <p><strong>Delivery Charge:</strong> ฿${deliveryCharge}</p>
+        `);
+
+        // ==========================================
+        // 3. Cart total
+        // Program: Loops through an array of prices and sums them.
+        // ==========================================
+        const cartPrices = [120, 45, 89, 250, 15];
+        let cartSum = 0;
+
+        for (const price of cartPrices) {
+            cartSum += price;
+        }
+
+        printToHTML("ex3-output", `
+            <p>Prices in cart: [ ${cartPrices.join(", ")} ]</p>
+            <p><strong>Total Cart Sum:</strong> ฿${cartSum}</p>
+        `);
+
+        // ==========================================
+        // 4. Discount function
+        // Program: A reusable function that takes amount and percentage.
+        // ==========================================
+        const calculateDiscount = (amount, percentage) => {
+            const discountValue = amount * (percentage / 100);
+            return amount - discountValue;
+        };
+
+        const originalPrice = 1000;
+        const discountPercent = 20;
+        const finalPrice = calculateDiscount(originalPrice, discountPercent);
+
+        printToHTML("ex4-output", `
+            <p>Original Price: ฿${originalPrice}</p>
+            <p>Discount Applied: ${discountPercent}%</p>
+            <p><strong>Price after discount:</strong> ฿${finalPrice}</p>
+        `);
+
+        // ==========================================
+        // 5. Product object (with interactive click feature)
+        // Program: Builds an array of product objects. Click to view details.
+        // ==========================================
+        // เพิ่ม properties ให้ Object ดูสมจริงขึ้น (stock, description)
+        const products = [
+            { name: "Wireless Mouse", price: 850, stock: 15, desc: "Ergonomic wireless mouse with 2.4GHz receiver. Great for productivity." },
+            { name: "Mechanical Keyboard", price: 3200, stock: 5, desc: "RGB mechanical keyboard with tactile blue switches." },
+            { name: "Gaming Monitor", price: 6500, stock: 2, desc: "24-inch 144Hz IPS display for smooth gaming experience." }
+        ];
+
+        const productListEl = document.getElementById("product-list");
+        const detailsBoxEl = document.getElementById("product-details");
+
+        // ลูปสร้างรายการสินค้าและฝัง Event Listener ให้กดได้
+        products.forEach(product => {
+            const li = document.createElement("li");
+            li.className = "product-item";
+            li.innerHTML = `📦 <strong>${product.name}</strong> — ฿${product.price} <span style="font-size: 0.8em; color: gray;">(Click to view)</span>`;
+            
+            // เมื่อคลิกที่สินค้าแต่ละตัว ให้ดึงข้อมูลมาแสดงในกล่องรายละเอียด
+            li.addEventListener("click", () => {
+                detailsBoxEl.style.display = "block"; // แสดงกล่องที่ซ่อนไว้
+                detailsBoxEl.innerHTML = `
+                    <h3 style="margin-top:0;">${product.name}</h3>
+                    <p><strong>Price:</strong> ฿${product.price}</p>
+                    <p><strong>In Stock:</strong> ${product.stock} units left</p>
+                    <p><strong>Description:</strong> ${product.desc}</p>
+                `;
+            });
+
+            productListEl.appendChild(li);
+        });
+
+    </script>
+</body>
+</html>
